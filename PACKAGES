@@ -1,0 +1,4 @@
+south
+django
+lxml
+gunicorndjango-sphinx
