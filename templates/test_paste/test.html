@@ -7,24 +7,27 @@
 </head>
 <body>
 <div id="myGrid" style="width:600px;height:500px;display:none;"></div>
-<script src="../SlickGrid/lib/jquery-1.4.3.min.js"></script> 
-<script src="../SlickGrid/lib/jquery.event.drag-2.0.min.js"></script> 
-<script src="../SlickGrid/slick.core.js"></script> 
-<script src="../SlickGrid/slick.grid.js"></script> 
+<textarea id="capture"></textarea>
+<script src="../SlickGrid/lib/jquery-1.4.3.min.js"></script>
+<script src="../SlickGrid/lib/jquery-ui-1.8.5.custom.min.js"></script>
+<script src="../SlickGrid/lib/jquery.event.drag-2.0.min.js"></script>
+<script src="../SlickGrid/slick.core.js"></script>
+<script src="../SlickGrid/slick.grid.js"></script>
+<script src="../SlickGrid/slick.editors.js"></script>
 <script>
 	var grid;
 	var columns = [
-		{id:"title", name:"Title", field:"title"},
-		{id:"duration", name:"Duration", field:"duration"},
-		{id:"%", name:"% Complete", field:"percentComplete"},
-		{id:"start", name:"Start", field:"start"},
-		{id:"finish", name:"Finish", field:"finish"},
-		{id:"effort-driven", name:"Effort Driven", field:"effortDriven"}
+		{id:"title", name:"Title", field:"title", editor:TextCellEditor},
+		{id:"duration", name:"Duration", field:"duration", editor:TextCellEditor},
+		{id:"%", name:"% Complete", field:"percentComplete", editor:TextCellEditor},
+		{id:"start", name:"Start", field:"start", editor:DateCellEditor},
+		{id:"finish", name:"Finish", field:"finish", editor:DateCellEditor},
+		{id:"effort-driven", name:"Effort Driven", field:"effortDriven", editor:YesNoCheckboxCellEditor, formatter:BoolCellFormatter}
 	];
-
 	var options = {
 		enableCellNavigation: true,
-		enableColumnReorder: false
+		enableColumnReorder: false,
+		editable: true
 	};
 	$(function() {
 		var data = [];
@@ -38,10 +41,19 @@
 				effortDriven: (i % 5 == 0)
 			};
 		}
- 
+
 		grid = new Slick.Grid("#myGrid", data, columns, options);
- 
+		grid.onKeyDown.subscribe(function(e) {
+			if (e.which != 86 || !e.ctrlKey) {
+				return false;
+			}
+			$("#capture").focus();
+		});
+
 		$("#myGrid").show();
+		$("#capture").bind('paste', function() {
+			alert('lol');
+		});
 	})
 </script>
 </body>
