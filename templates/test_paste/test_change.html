@@ -18,7 +18,6 @@
 		<label>Controls</label>
 	</div>
 	<button id="add_column">Add Column</button>
-	<button id="add_row">Add Row</button><br>
 	<button id="del_column">Delete Selected Column</button>
 	<button id="del_row">Delete Selected Row</button>
 	
@@ -34,55 +33,63 @@
 <script src="../SlickGrid/slick.core.js"></script>
 <script src="../SlickGrid/slick.grid.js"></script>
 <script src="../SlickGrid/slick.editors.js"></script>
-<script>
-		var grid;
-		var data = [];
-		var columns = [];
-		var options = {
-			editable: true,
-			enableAddRow: true,
-			enableCellNavigation: true,
-			asyncEditorLoading: false,
-      autoEdit: false
-		};
+<script type="text/coffeescript">
+data = []
+columns = []
+options = 
+	editable: true
+	enableAddRow: true
+	enableCellNavigation: true
 
-		$(function() {
-			grid = new Slick.Grid("#myGrid", data, columns, options);
-      grid.onAddNewRow.subscribe(function(e, args) {
-        var item = args.item;
-        var column = args.column;
-        grid.invalidateRow(data.length);
-        data.push(item);
-        grid.updateRowCount();
-        grid.render();
-      });
-      
-  		$("#add_column").click(function(e) {
-  			var columns = grid.getColumns();
-  			var id = columns.length + 1;
-  			var desc = prompt("Column name");
-  			if (desc === null) { return; }
-  			columns.push({id:"col" + id, name:desc, field:desc, editor:TextCellEditor});
-  			grid.setColumns(columns);
-  		});
+$(->
+	grid = new Slick.Grid "#myGrid", data, columns, options
+	grid.onAddNewRow.subscribe (e, args) ->
+		item = args.item
+		column = args.column
+		grid.invalidateRow data.length
+		data.push item
+		grid.updateRowCount()
+		grid.render()
+	
+	$("#add_column").click (e) ->
+		columns = grid.getColumns()
+		id = columns.length + 1
+		desc = prompt "Column name"
+		if desc == null
+			return
+		columns.push
+			id: "col" + id
+			name: desc
+			field: desc
+			editor: TextCellEditor
+		grid.setColumns columns
+	
+	$("#del_column").click (e) ->
+		columns = grid.getColumns()
+		cell = grid.getActiveCell()
+		if cell == null
+			return
+		columns.splice cell['cell'] 1
+		grid.setColumns columns
+	
+	$("#del_row").click (e) ->
+		cell = grid.getActiveCell()
+		if cell == null
+			return
+		grid.invalidateRow cell['row']
+		data.splice cell['row'] 1
+		grid.setData data
+		grid.updateRowCount();
+		grid.render();
+	
+	$("#serialize").click (e) ->
+		s_data =
+			columns: column.name for column in columns
+			rows: data
 		
-  		$("#del_column").click(function(e) {
-  		  var columns = grid.getColumns();
-  		  var cell = grid.getActiveCell();
-  		  if (cell === null) { return; }
-  		  columns.splice(cell['cell'], 1); //Remove index cell['cell']
-  		  grid.setColumns(columns);
-  		});
-		
-  		$("#serialize").click(function(e) {
-  		  var s_data = {
-  		    columns: columns,
-  		    rows: data
-  		  };
-		  
-  		  $("#serialize_text").val(JSON.stringify(s_data));
-  		});
-		});
+		$("#serialize_text").val JSON.stringify s_data	
+)
 </script>
+<script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js"></script>
 </body>
 </html>
