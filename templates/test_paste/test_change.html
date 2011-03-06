@@ -21,67 +21,68 @@
 	<button id="add_row">Add Row</button><br>
 	<button id="del_column">Delete Selected Column</button>
 	<button id="del_row">Delete Selected Row</button>
+	
+	<div>
+	  <button id="serialize">Serialize</button><br>
+	  <textarea id="serialize_text" style="width:100%;height:450px;"></textarea>
+	</div>
 </div>
 <script src="../SlickGrid/lib/jquery-1.4.3.min.js"></script>
 <script src="../SlickGrid/lib/jquery-ui-1.8.5.custom.min.js"></script>
 <script src="../SlickGrid/lib/jquery.event.drag-2.0.min.js"></script>
+
 <script src="../SlickGrid/slick.core.js"></script>
 <script src="../SlickGrid/slick.grid.js"></script>
-<script src="../SlickGrid/slick.dataview.js"></script>
 <script src="../SlickGrid/slick.editors.js"></script>
 <script>
-	var grid;
-	var columns = [];
-	var options = {
-		enableCellNavigation: true,
-		enableColumnReorder: false,
-		editable: true
-	};
-	$(function() {
+		var grid;
 		var data = [];
-		dataView = new Slick.Data.DataView();
-		grid = new Slick.Grid("#myGrid", dataView, columns, options);
-		dataView.onRowCountChanged.subscribe(function(e,args) {
-			grid.updateRowCount();
-			grid.render();
-		});
-		dataView.beginUpdate();
-		dataView.setItems(data);
-		dataView.endUpdate();
-		$("#myGrid").show();
+		var columns = [];
+		var options = {
+			editable: true,
+			enableAddRow: true,
+			enableCellNavigation: true,
+			asyncEditorLoading: false,
+      autoEdit: false
+		};
+
+		$(function() {
+			grid = new Slick.Grid("#myGrid", data, columns, options);
+      grid.onAddNewRow.subscribe(function(e, args) {
+        var item = args.item;
+        var column = args.column;
+        grid.invalidateRow(data.length);
+        data.push(item);
+        grid.updateRowCount();
+        grid.render();
+      });
+      
+  		$("#add_column").click(function(e) {
+  			var columns = grid.getColumns();
+  			var id = columns.length + 1;
+  			var desc = prompt("Column name");
+  			if (desc === null) { return; }
+  			columns.push({id:"col" + id, name:desc, field:desc, editor:TextCellEditor});
+  			grid.setColumns(columns);
+  		});
 		
-		$("#add_column").click(function(e) {
-			var columns = grid.getColumns();
-			var id = columns.length + 1;
-			var desc = prompt("Column name");
-			if (desc === null) { return; }
-			columns.push({id:"col" + id, name:desc, field:desc});
-			grid.setColumns(columns);
-		});
+  		$("#del_column").click(function(e) {
+  		  var columns = grid.getColumns();
+  		  var cell = grid.getActiveCell();
+  		  if (cell === null) { return; }
+  		  columns.splice(cell['cell'], 1); //Remove index cell['cell']
+  		  grid.setColumns(columns);
+  		});
 		
-		$("#add_row").click(function(e) {
-			var id = dataView.getLength() + 1;
-			dataView.addItem({id:id, description:'g'});
+  		$("#serialize").click(function(e) {
+  		  var s_data = {
+  		    columns: columns,
+  		    rows: data
+  		  };
+		  
+  		  $("#serialize_text").val(JSON.stringify(s_data));
+  		});
 		});
-		
-		$("#del_row").click(function e() {
-			var cell = grid.getActiveCell();
-			if (cell === null) { return; }
-			var item = dataView.getItem(cell['row']);
-			if (item === null) { return; }
-			dataView.deleteItem(item.id);
-			grid.invalidate();
-			grid.render();
-		});
-		
-		$("#del_column").click(function(e) {
-		  var columns = grid.getColumns();
-		  var cell = grid.getActiveCell();
-		  if (cell === null) { return; }
-		  columns.splice(cell['cell'], 1); //Remove index cell['cell']
-		  grid.setColumns(columns);
-		});
-	})
 </script>
 </body>
 </html>
