@@ -31,22 +31,14 @@
 <script src="../SlickGrid/slick.editors.js"></script>
 <script>
 	var grid;
-	var columns = [
-		{
-			id:"desc",
-			name:"Description",
-			field:"description"
-		}
-	];
+	var columns = [];
 	var options = {
 		enableCellNavigation: true,
 		enableColumnReorder: false,
 		editable: true
 	};
 	$(function() {
-		var data = [
-			{id:0, description:'gasdfasdf'}
-		];
+		var data = [];
 		dataView = new Slick.Data.DataView();
 		grid = new Slick.Grid("#myGrid", dataView, columns, options);
 		dataView.onRowCountChanged.subscribe(function(e,args) {
@@ -74,13 +66,20 @@
 		
 		$("#del_row").click(function e() {
 			var cell = grid.getActiveCell();
-			//cell['row'], cell['cell']
 			if (cell === null) { return; }
 			var item = dataView.getItem(cell['row']);
 			if (item === null) { return; }
 			dataView.deleteItem(item.id);
 			grid.invalidate();
 			grid.render();
+		});
+		
+		$("#del_column").click(function(e) {
+		  var columns = grid.getColumns();
+		  var cell = grid.getActiveCell();
+		  if (cell === null) { return; }
+		  columns.splice(cell['cell'], 1); //Remove index cell['cell']
+		  grid.setColumns(columns);
 		});
 	})
 </script>
