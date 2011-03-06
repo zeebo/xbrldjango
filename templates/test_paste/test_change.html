@@ -41,7 +41,7 @@ options =
 	enableAddRow: true
 	enableCellNavigation: true
 
-$(->
+$ ->
 	grid = new Slick.Grid "#myGrid", data, columns, options
 	grid.onAddNewRow.subscribe (e, args) ->
 		item = args.item
@@ -88,7 +88,6 @@ $(->
 			rows: data
 		
 		$("#serialize_text").val JSON.stringify s_data	
-)
 </script>
 <script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js"></script>
 </body>
