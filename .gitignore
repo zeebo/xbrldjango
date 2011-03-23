@@ -1,4 +1,4 @@
 *.py[oc]
 *.db
-static/
+static/comp/
 private_settings.py
