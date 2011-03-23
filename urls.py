@@ -8,7 +8,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^test/', direct_to_template, {
-        'template': 'test.html'
-    })
+        'template': 'test.html',
+    }),
+    (r'^paste/$', direct_to_template, {
+        'template': 'test_paste/test_change.html',
+    }),
 )
 urlpatterns += staticfiles_urlpatterns()
