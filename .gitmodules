@@ -1,3 +1,6 @@
 [submodule "templates/SlickGrid"]
 	path = templates/SlickGrid
 	url = git://github.com/mleibman/SlickGrid.git
+[submodule "django_compilation"]
+	path = django_compilation
+	url = git@github.com:zeebo/django_compilation
