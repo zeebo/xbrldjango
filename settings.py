@@ -19,11 +19,11 @@ USE_I18N = False
 
 USE_L10N = True
 
-MEDIA_ROOT = ''
-
-MEDIA_URL = ''
-
-ADMIN_MEDIA_PREFIX = '/media/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    ('admin', '/home/zeebo/Code/envs/xbrldjango/lib/python2.6/site-packages/django/contrib/admin/media/'),
+)
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -41,6 +41,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'xbrldjango.urls'
 
 TEMPLATE_DIRS = (
+    'templates',
 )
 
 SPHINX_API_VERSION = 0x116
@@ -52,7 +53,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django.contrib.staticfiles',
     'south',
     'djangosphinx',
     'xbrldjango.taxonomy',
+    'compilation',
 )
+
+COMPILER_ROOT = ''
