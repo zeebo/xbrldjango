@@ -22,6 +22,7 @@ USE_L10N = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     ('admin', '/home/zeebo/Code/envs/xbrldjango/lib/python2.6/site-packages/django/contrib/admin/media/'),
+    ('comp', '/home/zeebo/Code/envs/xbrldjango/xbrldjango/static/comp')
 )
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
@@ -60,4 +61,4 @@ INSTALLED_APPS = (
     'compilation',
 )
 
-COMPILER_ROOT = ''
+COMPILER_ROOT = '/home/zeebo/Code/envs/xbrldjango/xbrldjango/static/comp'
