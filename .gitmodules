@@ -4,3 +4,6 @@
 [submodule "modules/SlickGrid"]
 	path = modules/SlickGrid
 	url = https://github.com/mleibman/SlickGrid.git
+[submodule "modules/django-debug-toolbar"]
+	path = modules/django-debug-toolbar
+	url = git@github.com:zeebo/django-debug-toolbar.git
