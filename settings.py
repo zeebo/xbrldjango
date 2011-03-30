@@ -30,6 +30,7 @@ STATICFILES_DIRS = (
     ('SlickGrid', os.path.join(CURRENT_PATH, 'static/SlickGrid')),
     ('css', os.path.join(CURRENT_PATH, 'static/css')),
     ('js', os.path.join(CURRENT_PATH, 'static/js')),
+    ('images', os.path.join(CURRENT_PATH, 'static/images')),
 )
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
