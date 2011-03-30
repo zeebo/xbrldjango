@@ -11,7 +11,7 @@ urlpatterns = patterns('',
         'template': 'test.html',
     }),
     (r'^paste/$', direct_to_template, {
-        'template': 'test_paste/test_change.html',
+        'template': 'test_change.html',
     }),
 )
 urlpatterns += staticfiles_urlpatterns()
