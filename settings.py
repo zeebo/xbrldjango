@@ -1,8 +1,9 @@
 # Django settings for xbrl project.
 from private_settings import *
-import os
+import os, sys
 
 CURRENT_PATH = os.path.dirname(__file__)
+sys.path.append(os.path.join(CURRENT_PATH, 'apps'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -26,7 +27,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     ('admin', '/home/zeebo/Code/envs/xbrldjango/lib/python2.6/site-packages/django/contrib/admin/media/'),
     ('comp', os.path.join(CURRENT_PATH, 'static/comp')),
-    ('slickgrid', os.path.join(CURRENT_PATH, 'static/SlickGrid')),
+    ('SlickGrid', os.path.join(CURRENT_PATH, 'static/SlickGrid')),
     ('css', os.path.join(CURRENT_PATH, 'static/css')),
     ('js', os.path.join(CURRENT_PATH, 'static/js')),
 )
@@ -63,7 +64,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'djangosphinx',
-    'xbrldjango.taxonomy',
     'compilation',
 )
 
