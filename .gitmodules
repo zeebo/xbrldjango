@@ -1,6 +1,0 @@
-[submodule "django_compilation"]
-	path = django_compilation
-	url = git@github.com:zeebo/django_compilation
-[submodule "static/SlickGrid"]
-	path = static/SlickGrid
-	url = https://github.com/mleibman/SlickGrid.git
