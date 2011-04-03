@@ -2,3 +2,4 @@ south
 django
 lxml
 gunicorn
+django-sphinx
